@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Abdelhakim Boukeffoussa — Pareto Talent, Day 1</title>
+<meta name="description" content="Day 1 submission for the Pareto Talent bootcamp.">
+<!-- El meta es el control efectivo: los crawlers solo leen robots.txt en la raiz
+     del dominio, que en un project page de GitHub no podemos tocar. -->
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0B0D10">
+
+<link rel="preload" href="fonts/din-600.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/ui-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/ui-700.woff2" as="font" type="font/woff2" crossorigin>
+
+<style>
+/* ─────────────────────────── fuentes (subset, self-hosted) ─────────────── */
+@font-face{font-family:'DIN';font-weight:600;font-style:normal;font-display:swap;
+  src:url('fonts/din-600.woff2') format('woff2')}
+@font-face{font-family:'UI';font-weight:400;font-style:normal;font-display:swap;
+  src:url('fonts/ui-400.woff2') format('woff2')}
+@font-face{font-family:'UI';font-weight:700;font-style:normal;font-display:swap;
+  src:url('fonts/ui-700.woff2') format('woff2')}
+
+/* ─────────────────────────── tokens ────────────────────────────────────── */
+:root{
+  --bg:#0B0D10;
+  --ink:#F3F5F6;
+  --muted:#9AA4B0;
+  --dim:#7C8794;
+  --accent:#5DD3C4;
+  --line:rgba(255,255,255,.10);
+  --pad:clamp(22px,5vw,72px);
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'UI',system-ui,-apple-system,'Segoe UI',sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+html{overflow-x:clip}   /* clip: no crea contenedor de scroll ni rompe position:sticky */
+img{display:block;max-width:100%;height:auto}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* ─────────────────────────── fondo ─────────────────────────────────────── */
+/* Tres capas estaticas (rejilla, grano) + una reactiva al cursor (luz). */
+.bg{position:fixed;inset:0;pointer-events:none;z-index:0}
+
+/* rejilla, desvanecida hacia los bordes para que no compita con el texto */
+.bg-grid{
+  background-image:
+    linear-gradient(rgba(255,255,255,.030) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.030) 1px,transparent 1px);
+  background-size:74px 74px;
+  -webkit-mask-image:radial-gradient(ellipse 92% 74% at 50% 42%,#000 18%,transparent 76%);
+  mask-image:radial-gradient(ellipse 92% 74% at 50% 42%,#000 18%,transparent 76%);
+}
+
+/* grano fino: le quita el aspecto de degradado plano */
+.bg-grain{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='150' height='150' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity:.038;
+}
+
+/* luz ambiente que sigue al cursor (unico elemento interactivo).
+   Vive dentro de un contenedor recortado: si no, sus 940px se salen del
+   viewport y generan scroll horizontal en pantallas chicas. */
+.bg-clip{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:1}
+.bg-glow{
+  position:absolute;left:0;top:0;width:940px;height:940px;margin:-470px 0 0 -470px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(93,211,196,.085),rgba(93,211,196,.03) 42%,transparent 66%);
+  transform:translate3d(50vw,42vh,0);
+  will-change:transform;
+}
+
+/* ─────────────────────────── estructura ────────────────────────────────── */
+.page{
+  position:relative;z-index:2;
+  min-height:100vh;min-height:100svh;
+  display:flex;flex-direction:column;
+  padding:clamp(26px,3.4vh,42px) var(--pad) clamp(24px,3.2vh,38px);
+}
+
+.topbar,.foot{
+  display:flex;justify-content:space-between;align-items:center;gap:16px;
+  font-size:11px;font-weight:700;letter-spacing:.20em;text-transform:uppercase;
+}
+.topbar{color:var(--muted)}
+.foot{color:var(--dim)}
+.tag{display:inline-flex;align-items:center;gap:9px;white-space:nowrap}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex:none;
+  box-shadow:0 0 10px rgba(93,211,196,.8)}
+
+/* ─────────────────────────── hero ──────────────────────────────────────── */
+.hero{
+  flex:1;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:center;
+  gap:clamp(34px,6vw,92px);
+  padding:clamp(34px,6vh,74px) 0;
+}
+
+.name{
+  margin:0;
+  font-family:'DIN',system-ui,sans-serif;
+  font-weight:600;
+  font-size:clamp(32px,7.6vw,104px);
+  line-height:.95;
+  letter-spacing:.004em;
+  text-transform:uppercase;
+  color:var(--ink);
+}
+.name span{display:block}
+
+.role{
+  margin:clamp(18px,2.4vw,26px) 0 0;
+  font-size:clamp(15px,1.45vw,20px);
+  font-weight:400;
+  line-height:1.45;
+  color:var(--ink);
+  text-wrap:balance;   /* si llega a cortar, reparte parejo y no deja una palabra huerfana */
+}
+.role .sep{color:var(--accent);padding:0 .45em;font-weight:400}
+
+.desc{
+  margin:clamp(14px,1.8vw,20px) 0 0;
+  font-size:clamp(12px,1.05vw,13.5px);
+  font-weight:700;
+  letter-spacing:.17em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+/* ─────────────────────────── CTA ───────────────────────────────────────── */
+.cta{
+  margin-top:clamp(30px,4.4vw,52px);
+  display:inline-flex;align-items:center;gap:12px;
+  padding:17px 30px;
+  border-radius:999px;
+  background:#F2F4F5;color:#0B0D10;
+  font-size:14px;font-weight:700;letter-spacing:.02em;
+  text-decoration:none;
+  justify-self:start;
+  box-shadow:0 0 0 1px rgba(255,255,255,.16),0 16px 40px -20px rgba(0,0,0,.95);
+  transition:transform .4s var(--ease),box-shadow .4s var(--ease),background-color .3s ease;
+}
+.cta .arrow{transition:transform .4s var(--ease)}
+.cta:hover{
+  background:#fff;
+  transform:translateY(-2px);
+  box-shadow:0 0 0 1px rgba(255,255,255,.22),
+             0 22px 46px -18px rgba(0,0,0,.95),
+             0 0 44px -8px rgba(93,211,196,.42);
+}
+.cta:hover .arrow{transform:translateX(4px)}
+.cta:active{transform:translateY(0);box-shadow:0 0 0 1px rgba(255,255,255,.16),
+             0 8px 22px -14px rgba(0,0,0,.95)}
+
+/* ─────────────────────────── retrato ───────────────────────────────────── */
+/* width:max-content = el div mide exactamente lo que la imagen. Sin esto, en
+   mobile el item de grid se estira a todo el ancho y el halo de ::before
+   (inset en %) crece contra un rectangulo ancho y bajo -> se sale del viewport. */
+.portrait{position:relative;flex:none;width:max-content}
+.portrait img{
+  width:clamp(142px,18vw,288px);
+  border-radius:50%;
+  box-shadow:0 0 0 1px var(--line),0 34px 90px -34px rgba(0,0,0,.95);
+}
+/* halo frio detras del retrato: le da profundidad sin bordes duros */
+.portrait::before{
+  content:'';position:absolute;inset:-18%;border-radius:50%;z-index:-1;
+  background:radial-gradient(circle,rgba(93,211,196,.13),transparent 68%);
+  filter:blur(12px);
+}
+
+/* ─────────────────────────── entrada ───────────────────────────────────── */
+@keyframes rise{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:none}}
+[data-anim]{animation:rise .8s var(--ease) both;animation-delay:var(--d,0ms)}
+
+/* ─────────────────────────── responsive ────────────────────────────────── */
+@media (max-width:980px){
+  .hero{
+    grid-template-columns:minmax(0,1fr);
+    align-items:start;
+    /* sin esto, las filas auto se estiran para llenar el hero y aparece un
+       hueco enorme entre el retrato y el nombre */
+    align-content:center;
+    gap:clamp(26px,4.4vw,38px);
+    padding:clamp(26px,4.6vh,44px) 0;
+  }
+  .portrait{order:-1}
+  .portrait img{width:clamp(144px,36vw,200px)}
+  .role{max-width:none}
+}
+@media (max-width:400px){
+  .role,.desc{font-size:11.5px}
+  .role{line-height:1.6}
+  .cta{padding:15px 24px;font-size:13px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  [data-anim]{animation:none}
+  .bg-glow{display:none}
+  .cta,.cta .arrow{transition:none}
+}
+</style>
+</head>
+<body>
+
+<div class="bg bg-grid" aria-hidden="true"></div>
+<div class="bg bg-grain" aria-hidden="true"></div>
+<div class="bg-clip" aria-hidden="true"><div class="bg-glow"></div></div>
+
+<div class="page">
+
+  <header class="topbar" data-anim style="--d:200ms">
+    <span class="tag"><i class="dot"></i>Pareto Talent</span>
+    <span class="tag">Day 01 / 10</span>
+  </header>
+
+  <main class="hero">
+    <div class="copy">
+      <h1 class="name" data-anim style="--d:350ms">
+        <span>Abdelhakim</span>
+        <span>Boukeffoussa</span>
+      </h1>
+
+      <p class="role" data-anim style="--d:500ms">Business and Operations<span class="sep" aria-hidden="true">|</span>IT, AI &amp; Marketing</p>
+
+      <p class="desc" data-anim style="--d:650ms">Story &middot; Fun &middot; Expectations</p>
+
+      <a class="cta" href="./homework.pdf" target="_blank" rel="noopener noreferrer"
+         data-anim style="--d:800ms">
+        View my homework
+        <span class="sr-only">(opens in a new tab)</span>
+        <svg class="arrow" width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+          <path d="M2.5 8.5h12M9.8 3.6l4.9 4.9-4.9 4.9"
+                stroke="currentColor" stroke-width="1.7"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="portrait" data-anim style="--d:350ms">
+      <img src="portrait.webp" width="436" height="436"
+           alt="Portrait of Abdelhakim Boukeffoussa">
+    </div>
+  </main>
+
+  <footer class="foot" data-anim style="--d:950ms">
+    <span class="tag">Digital submission</span>
+  </footer>
+
+</div>
+
+<script>
+/* Luz ambiente que sigue al cursor. Se apaga sola: no corre en equipos con
+   prefers-reduced-motion ni en pantallas sin puntero fino (ahi queda la luz
+   estatica del CSS). El rAF se detiene cuando llega al objetivo. */
+(function () {
+  var glow = document.querySelector('.bg-glow');
+  if (!glow) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+  var tx = innerWidth * 0.5, ty = innerHeight * 0.42;
+  var cx = tx, cy = ty, raf = null;
+
+  function frame() {
+    cx += (tx - cx) * 0.075;
+    cy += (ty - cy) * 0.075;
+    glow.style.transform = 'translate3d(' + cx.toFixed(1) + 'px,' + cy.toFixed(1) + 'px,0)';
+    if (Math.abs(tx - cx) < 0.4 && Math.abs(ty - cy) < 0.4) { raf = null; return; }
+    raf = requestAnimationFrame(frame);
+  }
+
+  addEventListener('pointermove', function (e) {
+    tx = e.clientX; ty = e.clientY;
+    if (raf === null) raf = requestAnimationFrame(frame);
+  }, { passive: true });
+})();
+</script>
+</body>
+</html>
