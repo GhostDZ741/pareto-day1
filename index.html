@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Abdelhakim Boukeffoussa — Pareto Talent Bootcamp</title>
-<meta name="description" content="Day 1 and Day 2 submissions for the Pareto Talent bootcamp.">
+<meta name="description" content="Day 1, Day 2 and Day 3 submissions for the Pareto Talent bootcamp.">
 <!-- El meta es el control efectivo: los crawlers solo leen robots.txt en la raiz
      del dominio, que en un project page de GitHub no podemos tocar. -->
 <meta name="robots" content="noindex, nofollow">
@@ -187,6 +187,9 @@ img{display:block;max-width:100%;height:auto}
 .prev .prev-go{color:var(--dim);transition:color .3s ease}
 .prev:hover{color:var(--ink);border-color:rgba(93,211,196,.42);background:rgba(93,211,196,.05)}
 .prev:hover .prev-go{color:var(--accent)}
+/* El sitio es acumulativo: al sumar un dia, los anteriores se apilan en vez de
+   reemplazarse, para que ninguna entrega quede huerfana. */
+.prevs{display:flex;flex-direction:column;align-items:flex-start}
 
 /* ─────────────────────────── retrato ───────────────────────────────────── */
 /* width:max-content = el div mide exactamente lo que la imagen. Sin esto, en
@@ -247,7 +250,7 @@ img{display:block;max-width:100%;height:auto}
 
   <header class="topbar" data-anim style="--d:200ms">
     <span class="tag"><i class="dot"></i>Pareto Talent</span>
-    <span class="tag">Day 02 / 10</span>
+    <span class="tag">Day 03 / 10</span>
   </header>
 
   <main class="hero">
@@ -259,11 +262,11 @@ img{display:block;max-width:100%;height:auto}
 
       <p class="role" data-anim style="--d:500ms">Business and Operations<span class="sep" aria-hidden="true">|</span>IT, AI &amp; Marketing</p>
 
-      <p class="desc" data-anim style="--d:650ms">An AI project trained on a real entrepreneur&rsquo;s voice</p>
+      <p class="desc" data-anim style="--d:650ms">A Second Brain built for a real founder</p>
 
-      <a class="cta" href="./homework-day2.pdf" target="_blank" rel="noopener noreferrer"
+      <a class="cta" href="./homework-day3.pdf" target="_blank" rel="noopener noreferrer"
          data-anim style="--d:800ms">
-        View Day 2 homework
+        View Day 3 homework
         <span class="sr-only">(opens in a new tab)</span>
         <svg class="arrow" width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
           <path d="M2.5 8.5h12M9.8 3.6l4.9 4.9-4.9 4.9"
@@ -272,13 +275,23 @@ img{display:block;max-width:100%;height:auto}
         </svg>
       </a>
 
-      <a class="prev" href="./homework.pdf" target="_blank" rel="noopener noreferrer"
-         data-anim style="--d:880ms">
-        <span class="prev-day">Day 01</span>
-        <span>Story &middot; Fun &middot; Expectations</span>
-        <span class="prev-go" aria-hidden="true">&rarr;</span>
-        <span class="sr-only">(opens in a new tab)</span>
-      </a>
+      <div class="prevs">
+        <a class="prev" href="./homework-day2.pdf" target="_blank" rel="noopener noreferrer"
+           data-anim style="--d:880ms">
+          <span class="prev-day">Day 02</span>
+          <span>Kasim Aslam Voice &amp; Thinking</span>
+          <span class="prev-go" aria-hidden="true">&rarr;</span>
+          <span class="sr-only">(opens in a new tab)</span>
+        </a>
+
+        <a class="prev" href="./homework.pdf" target="_blank" rel="noopener noreferrer"
+           data-anim style="--d:930ms">
+          <span class="prev-day">Day 01</span>
+          <span>Story &middot; Fun &middot; Expectations</span>
+          <span class="prev-go" aria-hidden="true">&rarr;</span>
+          <span class="sr-only">(opens in a new tab)</span>
+        </a>
+      </div>
     </div>
 
     <div class="portrait" data-anim style="--d:350ms">
